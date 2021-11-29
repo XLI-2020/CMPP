@@ -6,6 +6,8 @@ from torch import optim
 from datetime import datetime
 from utils.model_component import integrated_loss,ParalleStGcn, eval_kl, eval_dist
 import argparse
+import os
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 parser = argparse.ArgumentParser(description='ME')
 parser.add_argument('--epochs', type=int, default=100)
@@ -25,7 +27,10 @@ print('start at:', st)
 t = args.time_interval
 
 features = np.load('./input/MallB/{t1}/features_{t2}.npy'.format(t1=t, t2=t.split('_')[0]))
+# np.save('./input/MallB/{t1}/features_{t2}.npy'.format(t1=t, t2=t.split('_')[0]), features[:1692,:,:,:])
 labels = np.load('./input/MallB/{t1}/labels_{t2}.npy'.format(t1=t, t2=t.split('_')[0]))
+# np.save('./input/MallB/{t1}/labels_{t2}.npy'.format(t1=t, t2=t.split('_')[0]), labels[:1692,:,:,:])
+
 print(features.shape)
 print(labels.shape)
 features, labels, idx_train, idx_validation, idx_test = train_test_valid_split(features, labels, train_rate=0.7, validation_rate=0.1)
@@ -67,16 +72,17 @@ def train(epoch):
         loss = integrated_loss(out1,out2,label1,label2)
         loss.backward()
         optimizer.step()
-    model.eval()
-    out_val1, out_val2 = model(features[idx_validation].to(device=args.device))
-    label_val1, label_val2 = label_transform(idx_validation)
-    label_val1 = label_val1.to(device=args.device)
-    label_val2 = label_val2.to(device=args.device)
-    loss_val = integrated_loss(out_val1, out_val2, label_val1, label_val2)
-    eu_dist = eval_dist(out_val1.cpu().numpy(), out_val2.cpu().numpy(), label_val1.cpu().numpy(),
-                        label_val2.cpu().numpy())
-    kl = eval_kl(out_val1.cpu().numpy(), out_val2.cpu().numpy(), label_val1.cpu().numpy(),
-                 label_val2.cpu().numpy())
+    model.train(False)
+    with torch.no_grad():
+        out_val1, out_val2 = model(features[idx_validation].to(device=args.device))
+        label_val1, label_val2 = label_transform(idx_validation)
+        label_val1 = label_val1.to(device=args.device)
+        label_val2 = label_val2.to(device=args.device)
+        loss_val = integrated_loss(out_val1, out_val2, label_val1, label_val2)
+        eu_dist = eval_dist(out_val1.cpu().numpy(), out_val2.cpu().numpy(), label_val1.cpu().numpy(),
+                            label_val2.cpu().numpy())
+        kl = eval_kl(out_val1.cpu().numpy(), out_val2.cpu().numpy(), label_val1.cpu().numpy(),
+                     label_val2.cpu().numpy())
 
     print('Epoch:{:04d}'.format(epoch+1),
           'loss_train: {:.4f}'.format(loss.item()),
