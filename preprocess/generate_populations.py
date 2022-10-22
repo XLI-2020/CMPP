@@ -10,6 +10,7 @@ import copy
 from ast import literal_eval
 from collections import OrderedDict
 import numpy as np
+
 def Timestamp(str_time):
     # str_time = str_time.split('.')[0]
     try:
@@ -458,15 +459,14 @@ class TrajectoryRecover(object):
         print('shape of adj', adj_df.shape)
         adj_df.to_csv(os.path.join(self.traj_path, 'adj.csv'), index=True, header=True)
 
-    def figure_distance_adjacency_matrix(self, regions_ids):
-        pass
+    # def figure_distance_adjacency_matrix(self, regions_ids):
+    #     pass
 
 
-shot_time = datetime.strptime('2017-01-05 11:00:00', '%Y-%m-%d %H:%M:%S')
-end_time = datetime.strptime('2017-01-05 13:00:00', '%Y-%m-%d %H:%M:%S')
-time_interval = 10
-
+shot_time = datetime.strptime('2018-01-01 09:00:00', '%Y-%m-%d %H:%M:%S')
+end_time = datetime.strptime('2018-01-31 19:00:00', '%Y-%m-%d %H:%M:%S')
+time_interval = 60
 tjr = TrajectoryRecover()
-recovered_location_20170105_2nd_floor = tjr.recover_all_macs_traj()
+recovered_location = tjr.recover_all_macs_traj()
 tjr.generate_pop_data(shot_time, time_interval, end_time)
 

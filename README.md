@@ -1,34 +1,53 @@
-# CMPP
-This is the implementation for CMPP project. The query folder contains the code for CMPP query, 
-while the others are used for implementing population prediction models
 
-# Requirements
+#Modeling and Monitoring of Indoor Populations using Sparse Positioning Data
+This is the repository of our work which encompasses supplemental material and implementation details.
+# Supplemental Material
+The results of supplemental experiments are available in [Supplemental Material](), which consist of experimental results of query processing in BLD-2, and \eta's effect in BLD-1.
 
+# Implementation Details
+The following is the implementation for CMPP project. 
+- preprocess: generate probabilistic populations.
+- estimators: population prediction models
+- input: population dataset
+- query: CMPP query
+
+### Requirements
 - Pytorch 1.8.1
 - Numpy 1.19.2
 - Pandas 1.1.3
 - Sklearn 0.24.1
 - Matplotlib 3.3.2
+- networkx 2.8.4
 
-# To run the code
-To train and evaluate models (e.g., ME):
-``` 
-nohup python  -u ME.py >> ME.log 2>&1 &
-```
-To run others models, just replace ME.py with corresponding .py files. For example,
-``` 
-cd ./baselines
-nohup python  -u tgcn.py >> tgcn.log 2>&1 &
-```
+You may use " pip3 install -r requirements.txt" to install the above libraries.
 
-To run CMPP query experiments (e.g., varying \theta):
-``` 
-cd ./query
-java -cp CMPP-0.0.1-SNAPSHOT.jar experiments.Experiment_Pop
+### Usage
+To generate probabilistic populations:
 ```
-or you can open the query folder in IDE (e.g., IntelliJ IDEA) and run them in IDE.
+cd ./preprocess; nohup python3 -u generate_populations.py > population.log &
+```
+To train and test population prediction models (e.g., ME):
+``` 
+cd ../estimators/; nohup python  -u ME.py --epochs 500 --batch_size 64 --time_interval five_mins > ME.log  &
+```
+To run CMPP query (e.g., varying \theta):
+``` 
+cd ../query; java -cp CMPP-0.0.1-SNAPSHOT.jar experiments.Experiment_Pop
+```
+or you may run it  in IDE (e.g., IntelliJ IDEA). Multiple csv files will be generated to record the f1-score, response time, and memory usage respectively.
 
-# Acknowledgements
+### Explaination of Parameters
+
+time_interval: prediction time interval (i.e., \delta)
+
+batch_size: the number of samples for back propagation in one pass
+
+epochs: the number of training rounds
+
+### Datasets
+The whole datasets are very large and thus available in [Google Drive](https://drive.google.com/drive/folders/1Vzhg8hQMSdNxQs2AEcbhH3952KaoYHbt?usp=sharing).
+
+### Acknowledgements
 We appreciate [ASTGNN](https://github.com/guoshnBJTU/ASTGNN) and [STGCN](https://github.com/FelixOpolka/STGCN-PyTorch) for publishing codes for ASTGNN and STGCN models respectively. They serve as 
 baselines after being adapted into our application scenario.
 
