@@ -23,8 +23,7 @@ class TrajectoryRecover(object):
         self.floor_num = 7
         self.itdv = IndoorTopoDoorVertex(floor_num=self.floor_num)
         self.traj_path = './data/'
-        self.vldb_data_path = './data/vldb_data'
-        self.filename = 'location20170105.csv'
+        self.filename = 'location20180101.csv'
         self.location_df = self.load_location_data()
         self.interested_columns = ['clientMac', 'x', 'y', 'timeStamp', 'path']
         self.useful_columns = ['clientMac', 'pre_timeStamp', 'pre_floor', 'pre_x_moved',
@@ -59,11 +58,9 @@ class TrajectoryRecover(object):
 
     def load_location_data(self):
         df = pd.read_csv(os.path.join(self.traj_path, self.filename), sep=',', header=0)
-        print('0 len of df', len(df))
         df = df.loc[df['path'].str.contains('/ADSP/HZDS/BLD-1/Floor {floor}'.format(floor=self.floor_num)), :]
         df = df.loc[(df['timeStamp'] >= '2017-01-05 10:00:00') & (df['timeStamp'] <= '2017-01-05 14:00:00'),
              :].reset_index().drop(['index'], axis=1)
-        print('1 len of df', len(df))
         res_df = self.trans_location_df(df)
         return res_df
 
@@ -80,16 +77,6 @@ class TrajectoryRecover(object):
         return one_mac_traj
 
     def recover_all_macs_traj(self):
-        '''
-        dtypes {'pre_clientMac': dtype('O'), 'pre_x': dtype('float64'), 'pre_y': dtype('float64'), 'pre_timeStamp': dtype('<M8[ns]'), 'pre_path': dtype('O'), 'pre_floor': dtype('int64'), 'pre_x_moved': dtype('float64'), 'pre_y_moved': dtype('float64'), 'pre_region_id': dtype('int64'), 'pre_point': dtype('O'), 'clientMac': StringDtype, 'x': dtype('float64'), 'y': dtype('float64'), 'timeStamp': dtype('<M8[ns]'), 'path': StringDtype, 'floor': Int64Dtype(), 'x_moved': dtype('float64'), 'y_moved': dtype('float64'), 'region_id': Int64Dtype(), 'point': dtype('O'), 'inter_path': dtype('O'), 'inter_path_info': dtype('O')}
-        columns Index(['pre_clientMac', 'pre_x', 'pre_y', 'pre_timeStamp', 'pre_path',
-       'pre_floor', 'pre_x_moved', 'pre_y_moved', 'pre_region_id', 'pre_point',
-       'clientMac', 'x', 'y', 'timeStamp', 'path', 'floor', 'x_moved',
-       'y_moved', 'region_id', 'point', 'inter_path', 'inter_path_info'],
-      dtype='object')
-
-        :return:
-        '''
         group_dfs = self.location_df.groupby(['clientMac'])
         all_macs_traj = pd.DataFrame()
         cnt = 0
@@ -189,10 +176,6 @@ class TrajectoryRecover(object):
         return combined_population_dict
 
     def generate_flow_snapshot(self, traj_combine, shot_time, time_interval, end_time):
-        """
-        doorID x y endtime, partition1-partition2, flow, partition2-partition1, flow; endtime, partition.....
-        :return:
-        """
         time_interval = timedelta(seconds=time_interval)
         traj_combine_original = traj_combine[traj_combine['inter_path'] != 'same'].reset_index(drop=True)
         segments_flow_dict = OrderedDict()
@@ -228,15 +211,6 @@ class TrajectoryRecover(object):
         return segments_flow_dict
 
     def figure_flow_p2p(self, inter_path_info, inter_path, start_time, end_time):
-        """
-        {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:51.612426'), 'direction': [286, 287]}
-        {('s', 497, 498, 500, 'e'): {'path_weight': 0.0389, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:22.750395'), 'direction': [293, 286]}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:24.993488'), 'direction': [286, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:26.187184'), 'direction': [159, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 497, 500, 498, 'e'): {'path_weight': 0.0273, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:22.227774'), 'direction': [293, 287]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:23.701956'), 'direction': [287, 159]}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:24.539246'), 'direction': [159, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 497, 500, 'e'): {'path_weight': 0.05, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:23.251359'), 'direction': [293, 287]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:25.954555'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 497, 455, 'e'): {'path_weight': 0.0606, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:23.728412'), 'direction': [293, 287]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:24.795107'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 497, 462, 'e'): {'path_weight': 0.031, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:22.394613'), 'direction': [293, 287]}, {'node_id': 462, 'timestamp': Timestamp('2017-01-05 12:49:24.203017'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 497, 'e'): {'path_weight': 0.061, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:23.749958'), 'direction': [293, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 497, 500, 'e'): {'path_weight': 0.0279, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:23.300413'), 'direction': [293, 286]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:24.909401'), 'direction': [286, 287]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:26.416960'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 497, 455, 'e'): {'path_weight': 0.0309, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:23.548965'), 'direction': [293, 286]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:25.331799'), 'direction': [286, 287]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:25.875712'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 497, 462, 'e'): {'path_weight': 0.0208, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:22.713394'), 'direction': [293, 286]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:23.911801'), 'direction': [286, 287]}, {'node_id': 462, 'timestamp': Timestamp('2017-01-05 12:49:25.124449'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 500, 497, 'e'): {'path_weight': 0.0272, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:23.244992'), 'direction': [293, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:24.080611'), 'direction': [159, 287]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:25.551851'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 500, 455, 'e'): {'path_weight': 0.0291, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:23.404980'), 'direction': [293, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:24.300149'), 'direction': [159, 287]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:25.939220'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 500, 462, 'e'): {'path_weight': 0.0191, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:22.573409'), 'direction': [293, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:23.159055'), 'direction': [159, 287]}, {'node_id': 462, 'timestamp': Timestamp('2017-01-05 12:49:25.277681'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 500, 'e'): {'path_weight': 0.0447, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:24.690798'), 'direction': [293, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:26.064567'), 'direction': [159, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 457, 455, 'e'): {'path_weight': 0.0252, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:23.076515'), 'direction': [293, 159]}, {'node_id': 457, 'timestamp': Timestamp('2017-01-05 12:49:24.187442'), 'direction': [159, 177]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:26.084099'), 'direction': [177, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 492, 490, 'e'): {'path_weight': 0.0231, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:22.905702'), 'direction': [293, 159]}, {'node_id': 492, 'timestamp': Timestamp('2017-01-05 12:49:24.339451'), 'direction': [159, 284]}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:25.344003'), 'direction': [284, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 498, 'e'): {'path_weight': 0.0347, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:23.865438'), 'direction': [293, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 490, 492, 498, 'e'): {'path_weight': 0.023, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:22.498480'), 'direction': [293, 284]}, {'node_id': 492, 'timestamp': Timestamp('2017-01-05 12:49:23.498264'), 'direction': [284, 159]}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:24.925208'), 'direction': [159, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 490, 492, 500, 'e'): {'path_weight': 0.027, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:22.758821'), 'direction': [293, 284]}, {'node_id': 492, 'timestamp': Timestamp('2017-01-05 12:49:23.932304'), 'direction': [284, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:26.435776'), 'direction': [159, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 490, 497, 500, 'e'): {'path_weight': 0.0304, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:22.982236'), 'direction': [293, 286]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:24.719879'), 'direction': [286, 287]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:26.364106'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 490, 497, 455, 'e'): {'path_weight': 0.034, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:23.218136'), 'direction': [293, 286]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:25.162571'), 'direction': [286, 287]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:25.761661'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 490, 497, 462, 'e'): {'path_weight': 0.0221, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:22.443027'), 'direction': [293, 286]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:23.707995'), 'direction': [286, 287]}, {'node_id': 462, 'timestamp': Timestamp('2017-01-05 12:49:25.000671'), 'direction': [287, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 490, 498, 500, 'e'): {'path_weight': 0.0415, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:23.706768'), 'direction': [293, 286]}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:24.856466'), 'direction': [286, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:26.131677'), 'direction': [159, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 490, 'e'): {'path_weight': 0.0438, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:23.857317'), 'direction': [293, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 134, 137, 462, 'e'): {'path_weight': 0.0326, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 134, 'timestamp': Timestamp('2017-01-05 12:49:21.503551'), 'direction': [293, 282]}, {'node_id': 137, 'timestamp': Timestamp('2017-01-05 12:49:23.411153'), 'direction': [282, 178]}, {'node_id': 462, 'timestamp': Timestamp('2017-01-05 12:49:24.053109'), 'direction': [178, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}, ('s', 134, 'e'): {'path_weight': 0.1943, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}, {'node_id': 134, 'timestamp': Timestamp('2017-01-05 12:49:24'), 'direction': [293, 286]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:27'), 'direction': None}]}}
-        :param inter_path_info:
-        :param inter_path:
-        :param start_time:
-        :param end_time:
-        :return:
-        """
         flow_dict = {}
         if inter_path == 'adjacent':
             door_id = inter_path_info['node_id']
@@ -274,12 +248,6 @@ class TrajectoryRecover(object):
         return population_dict
 
     def figure_population_for_nonadjacent_points(self, inter_path_info, shot_time):
-        '''
-        {('s', 497, 500, 'e'): {'path_weight': 0.1271, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:17.876132'), 'direction': [286, 287]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:20.128796'), 'direction': [287, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 497, 455, 'e'): {'path_weight': 0.1541, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:18.273676'), 'direction': [286, 287]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:19.162588'), 'direction': [287, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 497, 462, 'e'): {'path_weight': 0.0788, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:17.162177'), 'direction': [286, 287]}, {'node_id': 462, 'timestamp': Timestamp('2017-01-05 12:49:18.669180'), 'direction': [287, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 497, 'e'): {'path_weight': 0.195, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:18.877236'), 'direction': [286, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 498, 500, 497, 'e'): {'path_weight': 0.0761, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:18.057411'), 'direction': [286, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:18.823209'), 'direction': [159, 287]}, {'node_id': 497, 'timestamp': Timestamp('2017-01-05 12:49:20.171519'), 'direction': [287, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 498, 500, 455, 'e'): {'path_weight': 0.0741, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:18.004150'), 'direction': [286, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:18.750124'), 'direction': [159, 287]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:20.116017'), 'direction': [287, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 498, 500, 462, 'e'): {'path_weight': 0.0485, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:17.311174'), 'direction': [286, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:17.799212'), 'direction': [159, 287]}, {'node_id': 462, 'timestamp': Timestamp('2017-01-05 12:49:19.564733'), 'direction': [287, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 498, 500, 'e'): {'path_weight': 0.1138, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:19.075665'), 'direction': [286, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:20.220472'), 'direction': [159, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 498, 457, 455, 'e'): {'path_weight': 0.064, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 498, 'timestamp': Timestamp('2017-01-05 12:49:17.730429'), 'direction': [286, 159]}, {'node_id': 457, 'timestamp': Timestamp('2017-01-05 12:49:18.656202'), 'direction': [159, 177]}, {'node_id': 455, 'timestamp': Timestamp('2017-01-05 12:49:20.236749'), 'direction': [177, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}, ('s', 490, 492, 500, 'e'): {'path_weight': 0.0686, 'path_info_list': [{'node_id': 's', 'timestamp': Timestamp('2017-01-05 12:49:16'), 'direction': None}, {'node_id': 490, 'timestamp': Timestamp('2017-01-05 12:49:17.465684'), 'direction': [286, 284]}, {'node_id': 492, 'timestamp': Timestamp('2017-01-05 12:49:18.443587'), 'direction': [284, 159]}, {'node_id': 500, 'timestamp': Timestamp('2017-01-05 12:49:20.529813'), 'direction': [159, 293]}, {'node_id': 'e', 'timestamp': Timestamp('2017-01-05 12:49:21'), 'direction': None}]}}
-        :param inter_path_info:
-        :param shot_time:
-        :return:
-        '''
         path_population_dict_list = []
         for path, path_info in inter_path_info.items():
             path_weight = path_info['path_weight']
@@ -335,87 +303,15 @@ class TrajectoryRecover(object):
         min_y, max_y = min(y_list), max(y_list)
         return min_x, min_y, max_x, max_y
 
-    def reshape_population_flow_data(self, shot_time, time_interval, end_time):
-        all_macs_traj = self.reload_all_combine_traj()
-        combined_population_dict = self.generate_population_snapshot(traj_combine_df=all_macs_traj, shot_time=shot_time)
-        segments_flow_dict = self.generate_flow_snapshot(traj_combine=all_macs_traj, shot_time=shot_time,
-                                                         time_interval=time_interval, end_time=end_time)
-        print('combined_population_dict:\n', combined_population_dict)
-        # print('segments_flow_dict:\n',segments_flow_dict)
-        regions = self.itdv.regions
-        doors = self.itdv.doors
-        region_ids = list(map(lambda x: [x['id'], self.extract_bound_points(x['points'])], regions))
-        # make up the missing zero population regions
-        for region in region_ids:
-            region_id = int(region[0])
-            x1 = round(region[1][0], 4)
-            y1 = round(region[1][1], 4)
-            x2 = round(region[1][2], 4)
-            y2 = round(region[1][3], 4)
-            if region_id not in combined_population_dict:
-                combined_population_dict[region_id] = [x1, y1, x2, y2, 0.0001]
-            else:
-                combined_population_dict[region_id] = [x1, y1, x2, y2, round(combined_population_dict[region_id], 4)]
-
-        population_df = pd.DataFrame(combined_population_dict, index=['x1', 'y1', 'x2', 'y2', 'population']).T
-        population_df.to_csv(
-            os.path.join(self.vldb_data_path, 'population_shot_floor_{floor}.txt'.format(floor=self.floor_num)),
-            index=True, header=False, sep='\t')
-
-        doors_info = list(map(lambda x: (
-        x['id'], ((x['line']['x1'] + x['line']['x2']) / 2, (x['line']['y1'] + x['line']['y2']) / 2),
-        x['connectedRegionsID']), doors))
-        normal_doors_info = list(filter(lambda x: len(x[2]) == 2, doors_info))
-        outlier_door_info = list(filter(lambda x: len(x[2]) != 2, doors_info))
-        print('outlier_door_info', outlier_door_info)
-
-        flow_shot_dict = {}
-        for door in normal_doors_info:
-            door_id = int(door[0])
-            door_x = round(door[1][0], 4)
-            door_y = round(door[1][1], 4)
-            door_pos_direction = tuple(door[2])
-            door_neg_direction = tuple([door[2][1], door[2][0]])
-            door_pos_tuple = (door_id, door_pos_direction)
-            door_neg_tuple = (door_id, door_neg_direction)
-            door_flow_slot_info_list = []
-            for time_span, flow_info_dict in segments_flow_dict.items():
-                end_time = time_span[1]
-                end_time_delta = (end_time - shot_time).total_seconds()
-                if door_pos_tuple in flow_info_dict:
-                    door_pos_flow = round(flow_info_dict[door_pos_tuple], 4)
-                else:
-                    door_pos_flow = 0
-                if door_neg_tuple in flow_info_dict:
-                    door_neg_flow = round(flow_info_dict[door_neg_tuple], 4)
-                else:
-                    door_neg_flow = 0
-                door_flow_str = ','.join(
-                    [str(end_time_delta), '-'.join([str(door_pos_direction[0]), str(door_pos_direction[1])]),
-                     str(door_pos_flow),
-                     '-'.join([str(door_neg_direction[0]), str(door_neg_direction[1])]), str(door_neg_flow)])
-                door_flow_slot_info_list.append(door_flow_str)
-
-            door_flow_slot_info_str = ';'.join(door_flow_slot_info_list)
-            flow_shot_dict[door_id] = [door_x, door_y, door_flow_slot_info_str]
-        flow_shot_df = pd.DataFrame(flow_shot_dict, index=['x', 'y', 'flow']).T
-
-        flow_shot_df.to_csv(
-            os.path.join(self.vldb_data_path, 'flow_shot_floor_{floor}.txt'.format(floor=self.floor_num)), index=True,
-            header=False, sep='\t')
 
     def figure_population_of_regions(self, shot_time):
         all_macs_traj = self.reload_all_combine_traj()
         combined_population_dict = self.generate_population_snapshot(traj_combine_df=all_macs_traj, shot_time=shot_time)
-        # segments_flow_dict = self.generate_flow_snapshot(traj_combine=all_macs_traj,shot_time=shot_time,time_interval=time_interval,end_time=end_time)
-        # print('combined_population_dict:\n',combined_population_dict)
         print('shot_time', shot_time)
-        # print('segments_flow_dict:\n',segments_flow_dict)
         regions = self.itdv.regions
         doors = self.itdv.doors
         regions_pop = []
         region_ids = list(map(lambda x: x['id'], regions))
-        # make up the missing zero population regions
         for region_id in region_ids:
             if region_id not in combined_population_dict:
                 regions_pop.append(0)
@@ -458,10 +354,6 @@ class TrajectoryRecover(object):
         adj_df = pd.DataFrame(adj.tolist(), index=regions_ids, columns=regions_ids)
         print('shape of adj', adj_df.shape)
         adj_df.to_csv(os.path.join(self.traj_path, 'adj.csv'), index=True, header=True)
-
-    # def figure_distance_adjacency_matrix(self, regions_ids):
-    #     pass
-
 
 shot_time = datetime.strptime('2018-01-01 09:00:00', '%Y-%m-%d %H:%M:%S')
 end_time = datetime.strptime('2018-01-31 19:00:00', '%Y-%m-%d %H:%M:%S')

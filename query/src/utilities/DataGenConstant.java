@@ -16,6 +16,7 @@ public class DataGenConstant {
 
 	public static double zoomLevel = 0.6;
 
+
 	/** numbers of the floor */
 	public static int nFloor = 5;
 

@@ -140,8 +140,6 @@ class DataUtil(object):
                 if idx == len(keys) - 1:
                     merged_data = DataUtil.to_merge_value(idx_start, idx_end, values, merge_value)
                     merged_cluster[merged_data.keys()[0], merged_data.keys()[-1]] = merged_data
-        # for keys in merged_cluster.keys():
-        #     print keys[0], keys[samples], keys[samples] - keys[0], len(merged_cluster[keys]), set(merged_cluster[keys].values())
         return merged_cluster
 
     @staticmethod
@@ -353,10 +351,6 @@ class DataUtil(object):
         c_t_s = cur_data[0][0]
         c_t_e = cur_data[-1][0]
 
-        # print '****'
-        # print p_t_s, p_t_e, len(pre_data)
-        # print c_t_s, c_t_e, len(cur_data)
-
         if (p_t_s - c_t_s > timedelta(seconds=0)) and (p_t_s - c_t_e <= timedelta(seconds=0)):
             return True
         if (p_t_e - c_t_s > timedelta(seconds=0)) and (p_t_e - c_t_e <= timedelta(seconds=0)):
@@ -415,10 +409,6 @@ class DataUtil(object):
         else:
             y = min(d, h) - max(b, f)
         return x * y
-        # area1 = (c - a) * (d - b)
-        # area2 = (g - e) * (h - f)
-        # return area1, area2, x * y, area1 + area2 - (x * y)
-
     @staticmethod
     def expand_mbr(mbr, r):
         a = mbr[0]

@@ -3,10 +3,10 @@
 
 This is the repository of our work which encompasses supplemental material and implementation details.
 # Supplemental Material
-The results of supplemental experiments are available in [Supplemental Material](), which consist of experimental results of query processing in BLD-2, and \eta's effect in BLD-1.
+The results of supplemental experiments are available in [Supplemental Material](https://anonymous.4open.science/r/CMPP-F823/supplemental_material.pdf), which consist of experimental results of query processing in BLD-2, and \eta's effect in BLD-1. Please download it to local for better readability.
 
 # Implementation Details
-The following is the implementation for CMPP project. 
+The implementation concerns 4 folders which are: 
 - preprocess: generate probabilistic populations.
 - estimators: population prediction models
 - input: population dataset
@@ -46,7 +46,7 @@ batch_size: the number of samples for back propagation in one pass
 epochs: the number of training rounds
 
 ### Datasets
-The whole datasets are very large and thus available in [Google Drive](https://drive.google.com/drive/folders/1Vzhg8hQMSdNxQs2AEcbhH3952KaoYHbt?usp=sharing).
+The whole datasets are very large and thus moved to [Google Drive](https://drive.google.com/drive/folders/1Vzhg8hQMSdNxQs2AEcbhH3952KaoYHbt?usp=sharing). 
 
 ### Acknowledgements
 We appreciate [ASTGNN](https://github.com/guoshnBJTU/ASTGNN) and [STGCN](https://github.com/FelixOpolka/STGCN-PyTorch) for publishing codes for ASTGNN and STGCN models respectively. They serve as 

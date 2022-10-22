@@ -36,4 +36,5 @@ public class IndoorSpace {
 	
 	/** the Number of Partitions per floor */
 	public static int iNumberParsPerFloor;
+
 }

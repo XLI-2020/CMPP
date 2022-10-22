@@ -108,4 +108,5 @@ public class Direction {
 	public String toString() {
 		return "p" + sID + " - d" +  + doorID + " - d" + doorID2 + " - p" + eID;
 	}
+
 }

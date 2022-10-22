@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+
 public class Prepare {
     public static String inputParIdInfo = System.getProperty("user.dir") + "/map_to_txt_data/parIDInfo.txt";
     public static String populationInfo_le = System.getProperty("user.dir") + "/population/le_query_";

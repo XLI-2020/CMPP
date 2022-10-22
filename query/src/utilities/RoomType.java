@@ -16,4 +16,5 @@ public class RoomType {
 
 	public static int SIMPLEPASS = 1;
 
+
 }

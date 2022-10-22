@@ -270,4 +270,5 @@ public class Floor extends Rect{
 	public double getY2() {
 		return y2;
 	}
+
 }

@@ -6,4 +6,5 @@ public class DoorType {
 	
 	public static int EXIT = 1;
 
+
 }

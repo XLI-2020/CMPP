@@ -11,6 +11,7 @@ import utilities.DataGenConstant;
  * <h>Shop</h>
  *
  */
+
 public class Shop {
 	private int originalmID;
 	private int mID;

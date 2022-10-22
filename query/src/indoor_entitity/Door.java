@@ -389,4 +389,5 @@ public class Door extends Point implements Comparable<Object>{
 
 		return outputString;
 	}
+
 }

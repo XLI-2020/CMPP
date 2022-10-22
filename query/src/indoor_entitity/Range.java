@@ -9,6 +9,7 @@ package indoor_entitity;
  * an interface Range
  *
  */
+
 public interface Range {
 	/** get minimum distance between the Range and one Point */
 	public abstract double getMinDist(Point point);

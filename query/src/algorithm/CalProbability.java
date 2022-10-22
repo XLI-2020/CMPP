@@ -91,3 +91,4 @@ public class CalProbability {
         calProbability(5, 10, 5);
     }
 }
+

@@ -22,6 +22,7 @@ public class DataPre {
 //        readDoor();
         readPar();
 
+
     }
 
     public static void readDoor() throws IOException {

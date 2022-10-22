@@ -10,6 +10,7 @@ import utilities.Constant;
  * to describe a object's position on one of the floors
  *
  */
+
 public class Point{
 	private double x;	// x coordinate
 	private double y;	// y coordinate

@@ -23,6 +23,7 @@ import utilities.RoomType;
  *
  *
  */
+
 public class DistMatrix {
 	private double[][] matrix;
 	private int mID;			// partition id

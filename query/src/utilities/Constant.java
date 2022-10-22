@@ -13,5 +13,6 @@ public class Constant {
 	/** a very large value */
 	public static double large = 99999999;
 	
-	
+
+
 }

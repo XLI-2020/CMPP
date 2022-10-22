@@ -13,8 +13,8 @@ class TrajectoryToDoorFLow(object):
     def __init__(self):
         self.rdr = RawDataReader()
         self.itdv = IndoorTopoDoorVertex(floor_num=1)
-        self.start_day = datetime.strptime('2017-01-05', '%Y-%m-%d')
-        self.end_day = datetime.strptime('2017-01-06', '%Y-%m-%d')
+        self.start_day = datetime.strptime('2018-01-05', '%Y-%m-%d')
+        self.end_day = datetime.strptime('2018-01-06', '%Y-%m-%d')
         self.map_path = '../map_data/'
         self.building_map_dict = self.get_building_map_dict()
         self.door_to_regions_relation_path = '../relation_data/'
@@ -105,12 +105,10 @@ class TrajectoryToDoorFLow(object):
                         pre_timestamp = pre_timestamp_location[0]
                         pre_location = pre_timestamp_location[1]
                         door_flow_dict = self.compute_door_flow_in_adjacent_locaions(pre_timestamp, pre_location,timestamp, location)
-                        print('segment_index:%d,segment_ti,timestamp_index,pre_timestamp,timestamp,door_flow_dict\n'%(segment_index),segment_ti, timestamp_index, pre_timestamp, timestamp, door_flow_dict)
                         timestamp_door_flow_dict[(pre_timestamp, timestamp)] = door_flow_dict
                         self.update_segment_door_flow(door_flow_dict, segment_door_flow_dict)
                 segments_door_flow_dict[segment_ti] = segment_door_flow_dict
             else:
-                print('segment_index:%d no segment_traj_items'%(segment_index))
                 # segments_door_flow_dict[segment_ti] = OrderedDict()
                 continue
         return segments_door_flow_dict,timestamp_door_flow_dict

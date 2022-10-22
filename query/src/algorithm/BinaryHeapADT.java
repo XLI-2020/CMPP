@@ -7,3 +7,4 @@ interface BinaryHeapADT<T> {
 	void heapifyUp(int index);
 	void heapifyDown(int i);
 }
+

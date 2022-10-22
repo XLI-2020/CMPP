@@ -108,5 +108,4 @@ public class D2Ddistance implements Comparable<Object>{
 			return 1;
 		}
 	}
-	
 }

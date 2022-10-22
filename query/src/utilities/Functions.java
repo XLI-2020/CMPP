@@ -11,6 +11,7 @@ import java.util.Random;
  * Utility Functions
  *
  */
+
 public class Functions {
 	/**
 	 * concatenate two parameters to form a key
