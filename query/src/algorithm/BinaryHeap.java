@@ -3,6 +3,7 @@ package algorithm;
 
 public class BinaryHeap<T extends Comparable<T>> implements BinaryHeapADT<T> {
 
+
     int size;
     T[] heapArray;
     int[] idArray;

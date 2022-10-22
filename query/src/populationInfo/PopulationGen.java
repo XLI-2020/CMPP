@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+
 public class PopulationGen {
     public static String population_le = System.getProperty("user.dir") + "/population/le_population_";
     public static String population_ge = System.getProperty("user.dir") + "/population/ge_population_";

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+
 public class Experiment_Pop {
     static int safe_duration = 120;
     static int range = 1500;

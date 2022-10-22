@@ -1,5 +1,6 @@
 
-#Modeling and Monitoring of Indoor Populations using Sparse Positioning Data
+# Modeling and Monitoring of Indoor Populations using Sparse Positioning Data
+
 This is the repository of our work which encompasses supplemental material and implementation details.
 # Supplemental Material
 The results of supplemental experiments are available in [Supplemental Material](), which consist of experimental results of query processing in BLD-2, and \eta's effect in BLD-1.

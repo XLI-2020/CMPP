@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
+
+
 public class AccuracyTest_Pop {
     static int range = 1500;
     static int sampleInterval = 60;

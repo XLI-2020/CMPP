@@ -8,7 +8,6 @@ import indoor_entitity.IndoorSpace;
 import indoor_entitity.Partition;
 import indoor_entitity.Point;
 import utilities.DataGenConstant;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
