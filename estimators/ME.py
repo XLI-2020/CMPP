@@ -26,15 +26,15 @@ st = datetime.now()
 print('start at:', st)
 t = args.time_interval
 
-features = np.load('./input/MallB/{t1}/features_{t2}.npy'.format(t1=t, t2=t.split('_')[0]))
+features = np.load('./input/BLD-1/{t1}/features_{t2}.npy'.format(t1=t, t2=t.split('_')[0]))
 # np.save('./input/MallB/{t1}/features_{t2}.npy'.format(t1=t, t2=t.split('_')[0]), features[:1692,:,:,:])
-labels = np.load('./input/MallB/{t1}/labels_{t2}.npy'.format(t1=t, t2=t.split('_')[0]))
+labels = np.load('./input/BLD-1/{t1}/labels_{t2}.npy'.format(t1=t, t2=t.split('_')[0]))
 # np.save('./input/MallB/{t1}/labels_{t2}.npy'.format(t1=t, t2=t.split('_')[0]), labels[:1692,:,:,:])
 
 print(features.shape)
 print(labels.shape)
 features, labels, idx_train, idx_validation, idx_test = train_test_valid_split(features, labels, train_rate=0.7, validation_rate=0.1)
-adj = np.load('./input/MallB/Adj.npy')
+adj = np.load('./input/BLD-1/Adj.npy')
 print('Adj shape',adj.shape)
 norm_adj = norm_Adj(adj)
 features = torch.FloatTensor(features)
