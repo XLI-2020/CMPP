@@ -1,9 +1,9 @@
 
 # Modeling and Monitoring of Indoor Populations using Sparse Positioning Data
 
-This is the repository of our work which encompasses supplemental material and implementation details.
-# Supplemental Material
-The results of supplemental experiments are available in [Supplemental Material](https://anonymous.4open.science/r/CMPP-F823/supplemental_material.pdf), which consist of experimental results of query processing in BLD-2, and \eta's effect in BLD-1. Please download it to local for better readability.
+This is the repository of our work which encompasses supplementary material and implementation details.
+# Supplementary Material
+The results of supplementary experiments are available in [Supplementary Material](https://anonymous.4open.science/r/CMPP-F823/supplementary_material.pdf), which consist of experimental results of query processing in BLD-2, and \eta's effect in BLD-1. Please download it to local for better readability.
 
 # Implementation Details
 The implementation concerns 4 folders which are: 
@@ -29,7 +29,7 @@ cd ./preprocess; nohup python3 -u generate_populations.py > population.log &
 ```
 To train and test population prediction models (e.g., ME):
 ``` 
-cd ../estimators/; nohup python  -u ME.py --epochs 500 --batch_size 64 --time_interval five_mins > ME.log  &
+cd ../estimators/; nohup python3  -u ME.py --epochs 500 --batch_size 64 --time_interval five_mins > ME.log  &
 ```
 To run CMPP query (e.g., varying \theta):
 ``` 
