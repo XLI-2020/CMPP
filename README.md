@@ -46,11 +46,13 @@ batch_size: the number of samples for back propagation in one pass
 epochs: the number of training rounds
 
 ### Datasets
-The whole datasets are very large and thus moved to [Google Drive](https://drive.google.com/drive/folders/1Vzhg8hQMSdNxQs2AEcbhH3952KaoYHbt?usp=sharing). 
+The whole datasets are very large and thus moved to [Google Drive](https://drive.google.com/drive/folders/1QtaNA4ppB_2KawGpmaUNMU39W_x5wGea?usp=sharing). 
 
-### Acknowledgements
-We appreciate [ASTGNN](https://github.com/guoshnBJTU/ASTGNN) and [STGCN](https://github.com/FelixOpolka/STGCN-PyTorch) for publishing codes for ASTGNN and STGCN models respectively. They serve as 
-baselines after being adapted into our application scenario.
+[//]: # (### Acknowledgements)
+
+[//]: # (We appreciate [ASTGNN]&#40;https://github.com/guoshnBJTU/ASTGNN&#41; and [STGCN]&#40;https://github.com/FelixOpolka/STGCN-PyTorch&#41; for publishing codes for ASTGNN and STGCN models respectively. They serve as )
+
+[//]: # (baselines after being adapted into our application scenario.)
 
 
 
