@@ -12,6 +12,7 @@ from collections import OrderedDict
 import numpy as np
 
 def Timestamp(str_time):
+
     # str_time = str_time.split('.')[0]
     try:
         return datetime.strptime(str_time, '%Y-%m-%d %H:%M:%S.%f')
