@@ -1,5 +1,6 @@
 package algorithm;
 
+
 interface BinaryHeapADT<T> {
 	void insert(T element, int id);
 	String extract_min();

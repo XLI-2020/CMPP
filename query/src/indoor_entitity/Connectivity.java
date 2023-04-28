@@ -4,6 +4,7 @@
 package indoor_entitity;
 
 
+
 public class Connectivity implements Comparable<Object>{
 	private int mDoorID;				// the through door to touch one partition
 	

@@ -8,6 +8,7 @@ features = np.load('../input/MallB/five_mins/features_five.npy')
 labels = np.load('../input/MallB/five_mins/labels_five.npy')
 
 
+
 features, labels, idx_train, idx_validation, idx_test = train_test_valid_split(features, labels, train_rate=0.7, validation_rate=0.1)
 
 

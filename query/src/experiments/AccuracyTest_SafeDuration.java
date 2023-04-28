@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 
+
 public class AccuracyTest_SafeDuration {
 
     static int sampleInterval = 60;

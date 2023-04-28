@@ -8,6 +8,7 @@ import utilities.RoomType;
 
 import java.util.ArrayList;
 
+
 public class ClassifyPartition {
 
 	// constructor

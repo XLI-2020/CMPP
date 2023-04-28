@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+
 import static java.util.stream.Collectors.toList;
 
 public class PointPrepare {

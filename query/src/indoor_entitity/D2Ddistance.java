@@ -7,6 +7,7 @@ package indoor_entitity;
  *
  */
 
+
 public class D2Ddistance implements Comparable<Object>{
 	private int doorID_1;  // the id of door 1
 	private int doorID_2;  // the id of door 2

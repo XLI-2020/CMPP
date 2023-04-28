@@ -11,6 +11,7 @@ import utilities.Constant;
  *
  */
 
+
 public class Point{
 	private double x;	// x coordinate
 	private double y;	// y coordinate

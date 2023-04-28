@@ -13,6 +13,7 @@ parser.add_argument('--time_interval', type=str, default='five_mins')
 parser.add_argument('--device', type=str,
                     default='cpu')
 
+
 args = parser.parse_args()
 if torch.cuda.is_available():
     args.device = torch.device('cuda')

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+
 public class IndoorSpace {
 	// indoor entities
 	/** all the doors of the indoor space */

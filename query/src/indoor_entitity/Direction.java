@@ -8,6 +8,7 @@ package indoor_entitity;
  * represent the direction of the door
  *
  */
+
 public class Direction {
 	private int sID;		// the source partition/floor id
 	private int eID;		// the ending partition/floor id

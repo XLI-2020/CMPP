@@ -3,6 +3,7 @@ package algorithm;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
+
 public class PrintOut {
     public static void main(String arg[]) {
         PrintOut p = new PrintOut();// 构造对象

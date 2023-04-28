@@ -2,6 +2,7 @@ import numpy as np
 import torch
 
 
+
 def load_metr_la_data():
     A = np.load("data/MallB_adj.npy")
     X = np.load("data/MallB_five_mins.npy").transpose((1, 2, 0))

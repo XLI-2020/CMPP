@@ -8,6 +8,7 @@ import indoor_entitity.Point;
 import utilities.DataGenConstant;
 import utilities.RoomType;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileWriter;

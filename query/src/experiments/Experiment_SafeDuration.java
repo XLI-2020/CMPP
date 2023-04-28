@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 
 
+
 public class Experiment_SafeDuration {
     static int range = 1500;
     static int sampleInterval = 60;

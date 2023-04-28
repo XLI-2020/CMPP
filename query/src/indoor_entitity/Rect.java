@@ -10,6 +10,7 @@ import utilities.Constant;
  *
  */
 
+
 public class Rect implements Range, Comparable<Object> {
 	private double x1;			// minimum in the x-axis
 	private double x2;			// maximum in the x-axis

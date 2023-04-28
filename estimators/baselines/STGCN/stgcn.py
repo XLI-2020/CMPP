@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class TimeBlock(nn.Module):
     """
     Neural network block that applies a temporal convolution to each node of
