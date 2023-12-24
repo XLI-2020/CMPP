@@ -5,6 +5,7 @@ import configparser
 
 
 
+
 def search_data(sequence_length, num_of_depend, label_start_idx,
                 num_for_predict, units, points_per_hour):
     '''

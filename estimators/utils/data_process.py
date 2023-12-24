@@ -1,6 +1,7 @@
 import copy
 import numpy as np
 
+
 def train_test_valid_split(features, labels, train_rate, validation_rate):
     features = np.array(features)
     labels = np.array(labels)

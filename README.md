@@ -7,7 +7,6 @@ This is the repository of our work which encompasses supplementary material and 
 The results of supplementary experiments are available in [Appendix](https://github.com/XLI-2020/CMPP/blob/main/Appendix.pdf), which consist of experimental results of query processing in BLD-2, and \eta's effect in BLD-1. Please download it to local for better readability.
 
 
-
 # Implementation Details
 The implementation concerns 4 folders which are: 
 - preprocess: generate probabilistic populations.

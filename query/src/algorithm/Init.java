@@ -6,8 +6,6 @@ import indoor_entitity.IndoorSpace;
 import indoor_entitity.Partition;
 import populationInfo.PopulationGen;
 import utilities.DataGenConstant;
-
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;

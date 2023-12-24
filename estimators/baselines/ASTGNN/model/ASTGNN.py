@@ -6,6 +6,7 @@ import math
 import numpy as np
 from lib.utils import norm_Adj
 
+
 def clones(module, N):
     '''
     Produce N identical layers.

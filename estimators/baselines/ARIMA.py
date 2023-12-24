@@ -5,6 +5,7 @@ from utils.model_component import eval_kl, eval_dist
 import torch
 
 
+
 features = np.load('../input/MallB/five_mins/features_five.npy')
 labels = np.load('../input/MallB/five_mins/labels_five.npy')
 print(features.shape)
