@@ -627,3 +627,11 @@ def integrated_loss(out1, out2, label1,label2):
     loss = loss1 + loss2
     return loss
 
+def waserstein_loss(out1, out2, label1,label2):
+    loss1 = F.mse_loss(out1, label1)
+    # print('out 2', out2)
+    # print('label 2', label2)
+    loss2 = F.mse_loss(out2, torch.sqrt(label2))
+    loss = loss1 + loss2
+    return loss
+
