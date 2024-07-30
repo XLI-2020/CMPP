@@ -2,9 +2,6 @@
 # Modeling and Monitoring of Indoor Populations using Sparse Positioning Data
 
 
-This is the repository of our work which encompasses supplementary material and implementation details.
-
-
 # Implementation Details
 The implementation concerns 4 folders which are: 
 - preprocess: generate probabilistic populations.
