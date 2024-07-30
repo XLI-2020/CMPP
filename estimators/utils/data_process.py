@@ -15,6 +15,8 @@ def train_test_valid_split(features, labels, train_rate, validation_rate):
     print('len(idx_test)', len(idx_test))
     return features, labels, idx_train, idx_validation, idx_test
 
+
+
 def norm_Adj(W):
     assert W.shape[0] == W.shape[1]
     N = W.shape[0]

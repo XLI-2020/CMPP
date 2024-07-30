@@ -635,3 +635,6 @@ def waserstein_loss(out1, out2, label1,label2):
     loss = loss1 + loss2
     return loss
 
+
+
+

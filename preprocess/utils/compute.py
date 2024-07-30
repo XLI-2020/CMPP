@@ -9,8 +9,6 @@ import json
 import random
 
 
-
-
 class TrajectoryToDoorFLow(object):
 
     def __init__(self):

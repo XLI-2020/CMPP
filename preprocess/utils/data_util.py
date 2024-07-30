@@ -6,8 +6,6 @@ from datetime import timedelta
 
 
 
-
-
 class DataUtil(object):
 
     __scale_dict__ = {

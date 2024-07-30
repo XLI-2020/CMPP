@@ -12,7 +12,6 @@ import copy
 import random
 from collections import OrderedDict
 
-
 class IndoorTopoDoorVertex(object):
     def __init__(self,floor_num):
         self.map_path = '../map_data/'

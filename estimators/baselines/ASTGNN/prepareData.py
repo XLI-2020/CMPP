@@ -276,7 +276,6 @@ def read_and_generate_dataset_encoder_decoder(graph_signal_matrix_filename,
     return all_data
 
 
-
 # prepare dataset
 parser = argparse.ArgumentParser()
 parser.add_argument("--config", default='configurations/HZB.conf', type=str,
@@ -308,5 +307,6 @@ points_per_hour = int(data_config['points_per_hour'])
 num_for_predict = int(data_config['num_for_predict'])
 graph_signal_matrix_filename = data_config['graph_signal_matrix_filename']
 data = np.load(graph_signal_matrix_filename)
+
 # print('qqqq', data.shape)
 all_data = read_and_generate_dataset_encoder_decoder(graph_signal_matrix_filename, num_of_weeks, num_of_days, num_of_hours, num_for_predict, points_per_hour=points_per_hour, save=True)

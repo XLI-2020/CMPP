@@ -185,6 +185,7 @@ class TemporalPositionalEncoding(nn.Module):
                 pe[pos, i+1] = math.cos(pos / (10000 ** ((2 * (i + 1)) / d_model)))
 
         pe = pe.unsqueeze(0).unsqueeze(0)  # (1, 1, T_max, d_model)
+
         self.register_buffer('pe', pe)
         # register_buffer:
         # Adds a persistent buffer to the module.
@@ -259,6 +260,7 @@ def attention(query, key, value, mask=None, dropout=None):
     if mask is not None:
         scores = scores.masked_fill_(mask == 0, -1e9)  # -1e9 means attention scores=0
     p_attn = F.softmax(scores, dim=-1)
+
     if dropout is not None:
         p_attn = dropout(p_attn)
     # p_attn: (batch, N, h, T1, T2)

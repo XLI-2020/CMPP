@@ -220,10 +220,13 @@ def predict_main(epoch, data_loader, data_target_tensor, _max, _min, type):
 
     net.load_state_dict(torch.load(params_filename))
 
+
+
     predict_and_save_results(net, data_loader, data_target_tensor, epoch, _max, _min, params_path, type)
 
 
 if __name__ == "__main__":
+
 
     train_main()
 

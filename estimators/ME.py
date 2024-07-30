@@ -110,6 +110,8 @@ def test():
           'kl: {:.4f}'.format(kl))
 
 
+
+
 train_epochs = args.epochs
 t_total = time.time()
 epoch_results = []

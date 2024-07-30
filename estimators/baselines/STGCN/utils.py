@@ -83,6 +83,7 @@ def generate_dataset(X, num_timesteps_input, num_timesteps_output):
 
     # Save samples
     features, target = [], []
+
     for i, j in indices:
         features.append(
             X[:, :, i: i + num_timesteps_input].transpose(

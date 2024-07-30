@@ -99,6 +99,7 @@ if __name__ == '__main__':
                 num_timesteps_input,
                 num_timesteps_output).to(device=args.device)
 
+
     net = net.double()
     optimizer = torch.optim.Adam(net.parameters(), lr=1e-3)
     loss_criterion = nn.MSELoss()

@@ -74,6 +74,7 @@ def train(epoch):
                         label_val2.cpu().numpy())
     kl = eval_kl(out_val1.cpu().numpy(), out_val2.cpu().numpy(), label_val1.cpu().numpy(),
                  label_val2.cpu().numpy())
+
     print('Epoch:{:04d}'.format(epoch + 1),
           'loss_train: {:.4f}'.format(loss.item()),
           'loss_val: {:.4f}'.format(loss_val.item()),

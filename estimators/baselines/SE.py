@@ -108,6 +108,7 @@ epoch_results = []
 time_eva = []
 
 for epoch in range(train_epochs):
+
     e_dist, kl = train(epoch)
 
 test()
